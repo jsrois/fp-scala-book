@@ -17,6 +17,11 @@ object Cafe {
   def buyCoffees(creditCard: CreditCard, number: Int): (List[Coffee], Charge) = {
     val purchases = List.fill(number)(buyCoffee(creditCard))
     val (coffees, charges) = purchases.unzip
-    (coffees, charges.reduce((c1, c2) => c1.combine(c2))
+    (coffees, charges.reduce((c1, c2) => c1.combine(c2)))
   }
+
+  def coalesce(charges: List[Charge]): List[Charge] =
+    charges.groupBy(_.creditCard).values.map(_.reduce(_ combine _)).toList
+
+
 }
